@@ -13,6 +13,7 @@ readonly TRUE=1
 # File and command info.
 readonly LOG_DATE_FORMAT='+%Y-%m-%d %H:%M:%S'
 readonly WORKING_DIR="$(cd -P "$(dirname "${BASH_SOURCE[0]}")" > /dev/null && pwd)"
+readonly BUILD_DIR="${WORKING_DIR}/build"
 
 # Exit states.
 readonly SUCCESS=0

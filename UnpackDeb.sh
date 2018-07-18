@@ -36,7 +36,6 @@
 . ./ErrorHandling.sh
 
 # File and command info.
-readonly BUILD_DIR="${WORKING_DIR}/build"
 readonly USAGE="${0} [-l <local_deb_files>] [-r <remote_deb_files>] [-b(uild)]"
 
 # Exit states.
