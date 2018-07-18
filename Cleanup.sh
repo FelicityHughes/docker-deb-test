@@ -10,20 +10,23 @@
 . ./ErrorHandling.sh
 
 ################################################################################
-# Removes all images created from local docker-compose.yml file.
+# Removes all images created from local docker-compose.yml file.  The target
+# service is taken to be the first service defined in the file.
 ################################################################################
 remove_docker_images() {
-  local -r SERVICE_NAME="deb_test"
-  local -r IMAGE="$("yq" "r" "${WORKING_DIR}/docker-compose.yml" \
-                      "services.${SERVICE_NAME}.image")"
+  local -r DOCKER_COMPOSE_FILE="${WORKING_DIR}/docker-compose.yml"
+  local -r SERVICE="$("yq" "r" "${DOCKER_COMPOSE_FILE}" "services" \
+                      | "sed" "-n" "1p" 's/^\([^:][^:]*\):$/\1/p')"
+  local -r IMAGE="$("yq" "r" "${DOCKER_COMPOSE_FILE}" \
+                    "services.${SERVICE}.image")"
 
-  local base_image="$("yq" "r" "${WORKING_DIR}/docker-compose.yml" \
-                      "services.${SERVICE_NAME}.build.args" | "sed" "-n" \
+  local base_image="$("yq" "r" "${DOCKER_COMPOSE_FILE}" \
+                      "services.${SERVICE}.build.args" | "sed" "-n" \
                       's/^.*BASE_IMAGE=\([^:][^:]*\):[^ ][^ ]*$/\1/p')"
 
   if [[ "${base_image}" == "" ]]; then
     base_image="$("grep" "ARG BASE_IMAGE=" "${BUILD_DIR}/Dockerfile" \
-                    | "sed" 's/^[^=][^=]*=\([^:][^:]*\):..*$/\1/')"
+                  | "sed" 's/^[^=][^=]*=\([^:][^:]*\):..*$/\1/')"
   fi
 
   docker rmi $(docker images -a | grep "${IMAGE}" | awk '{print $3}')
