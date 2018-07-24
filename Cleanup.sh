@@ -9,6 +9,7 @@
 # Include error handling functionality.
 . ./ErrorHandling.sh
 
+
 ################################################################################
 # Removes all images created from local docker-compose.yml file.  The target
 # service is taken to be the first service defined in the file.
@@ -34,9 +35,19 @@ remove_docker_images() {
 }
 
 
+#################################################################################
+# Entry point to the program.  Command line arguments are ignored.
 ################################################################################
+main() {
+  remove_docker_containers "${TRUE}"
+  remove_docker_images
+}
 
-remove_docker_containers "${TRUE}"
-remove_docker_images
 
+#################################################################################
+# Set up for bomb-proof exit, then run the script
+################################################################################
+trap_with_signal cleanup HUP INT QUIT ABRT TERM EXIT
+
+main "${@}"
 exit ${SUCCESS}

@@ -6,22 +6,51 @@
 ################################################################################
 
 
+################################################################################
 # Define booleans.
+################################################################################
 readonly FALSE=0
 readonly TRUE=1
 
+
+################################################################################
 # File and command info.
+################################################################################
 readonly LOG_DATE_FORMAT='+%Y-%m-%d %H:%M:%S'
 readonly WORKING_DIR="$(cd -P "$(dirname "${BASH_SOURCE[0]}")" > /dev/null && pwd)"
 readonly BUILD_DIR="${WORKING_DIR}/build"
 
+
+################################################################################
 # Exit states.
+################################################################################
 readonly SUCCESS=0
 readonly UNDEFINED_ERROR=1
 readonly SCRIPT_INTERRUPTED=99
 
 
 ################################################################################
+# Executes clean up tasks required before exiting - basically writing the
+# interrupt signal to stderr.
+#
+# Note:  This function is assigned to signal trapping for the script so any
+#        unexpected interrupts are handled gracefully.
+################################################################################
+cleanup() {
+  # Exit and indicate what caused the interrupt
+  if [[ "${1}" != "EXIT" ]]; then
+    write_log "Script interrupted by '${1}' signal"
+
+    if [[ "${1}" != "INT" ]] && [[ "${1}" != "QUIT" ]]; then
+      exit ${SCRIPT_INTERRUPTED}
+    else
+      kill -"${1}" "$$"
+    fi
+  fi
+}
+
+
+#################################################################################
 # Checks the supplied return value from a previously executed command and if it
 # is non-zero, exits the script with the given value after logging an error
 # message (if supplied).

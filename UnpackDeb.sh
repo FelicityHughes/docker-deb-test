@@ -35,16 +35,25 @@
 # Include error handling functionality.
 . ./ErrorHandling.sh
 
+
+################################################################################
 # File and command info.
+################################################################################
 readonly USAGE="${0} [-l <local_deb_files>] [-r <remote_deb_files>] [-b(uild)]"
 
+
+################################################################################
 # Exit states.
+################################################################################
 readonly BAD_ARGUMENT_ERROR=90
 readonly MISSING_DEB_ERROR=91
 readonly MISSING_DIR_ERROR=92
 readonly CURL_ERROR=93
 
+
+################################################################################
 # Command line switch environment variables.
+################################################################################
 LOCAL_DEB_FILES=()
 REMOTE_DEB_FILES=()
 REBUILD="${FALSE}"
@@ -110,27 +119,6 @@ check_args() {
 
 
 ################################################################################
-# Executes clean up tasks required before exiting - basically writing the 
-# interrupt signal to stderr.
-#
-# Note:  This function is assigned to signal trapping for the script so any
-#        unexpected interrupts are handled gracefully.
-################################################################################
-cleanup() {
-  # Exit and indicate what caused the interrupt
-  if [[ "${1}" != "EXIT" ]]; then
-    write_log "Script interrupted by '${1}' signal"
-
-    if [[ "${1}" != "INT" ]] && [[ "${1}" != "QUIT" ]]; then
-      exit ${SCRIPT_INTERRUPTED}
-    else
-      kill -"${1}" "$$"
-    fi
-  fi
-}
-
-
-#################################################################################
 # Retrieves the deb files required for the build and copies them to the build
 # directory.
 #################################################################################
