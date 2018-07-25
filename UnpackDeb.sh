@@ -72,7 +72,7 @@ check_args() {
       -b)
         if ! [[ "${2}" =~ ^-[lr]$ ]] && [[ ${#} -gt 1 ]]; then
           exit_with_error "${BAD_ARGUMENT_ERROR}" \
-                          "Option ${1} does not require an argument.  Usage:  $USAGE"
+                          "Option ${1} does not require an argument.  Usage:  ${USAGE}"
         else
           REBUILD="${TRUE}"
         fi
@@ -85,7 +85,7 @@ check_args() {
 
         if [[ ${#LOCAL_DEB_FILES[@]} -eq 0 ]]; then
           exit_with_error "${BAD_ARGUMENT_ERROR}" \
-                          "Option ${1} requires an argument.  Usage:  $USAGE"
+                          "Option ${1} requires an argument.  Usage:  ${USAGE}"
         else
           deb_specified="${TRUE}"
         fi
@@ -98,14 +98,14 @@ check_args() {
 
         if [[ ${#REMOTE_DEB_FILES[@]} -eq 0 ]]; then
           exit_with_error "${BAD_ARGUMENT_ERROR}" \
-                          "Option ${1} requires an argument.  Usage:  $USAGE"
+                          "Option ${1} requires an argument.  Usage:  ${USAGE}"
         else
           deb_specified="${TRUE}"
         fi
         ;;
       *)
         exit_with_error "${BAD_ARGUMENT_ERROR}" \
-                        "Invalid option: ${1}.  Usage:  $USAGE"
+                        "Invalid option: ${1}.  Usage:  ${USAGE}"
         ;;
     esac
     shift
@@ -113,7 +113,7 @@ check_args() {
 
   if ((deb_specified == FALSE)); then
     exit_with_error "${MISSING_DEB_ERROR}" \
-                    "No local or remote .deb files specified!"
+                    "No local or remote .deb files specified!  Usage:  ${USAGE}"
   fi
 }
 
