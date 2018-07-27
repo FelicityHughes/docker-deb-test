@@ -113,15 +113,15 @@ remove_docker_containers() {
 ################################################################################
 # Sets up a trap to execute the nominated function for passed signals.
 #
-# @param trap_function The function to execute when a signal is trapped by the
+# @param TRAP_FUNCTION The function to execute when a signal is trapped by the
 #                      script.
 ################################################################################
 trap_with_signal() {
-  local -r trap_function="${1}"
+  local -r TRAP_FUNCTION="${1}"
 
   shift
   for trapped_signal; do
-    trap "${trap_function} ${trapped_signal}" "${trapped_signal}"
+    trap "${TRAP_FUNCTION} ${trapped_signal}" "${trapped_signal}"
   done
 }
 
