@@ -87,6 +87,7 @@ remove_docker_images() {
 # Entry point to the program.  Command line arguments are ignored.
 ################################################################################
 main() {
+  rm -rf "${BUILD_DIR}"/*.deb
   remove_docker_containers "${TRUE}"
   remove_docker_images
 }

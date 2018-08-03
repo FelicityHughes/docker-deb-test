@@ -126,7 +126,7 @@ get_deb_files() {
   local return_val="${SUCCESS}"
 
   # Make sure we only have .deb files relevant for this script run.
-  rm -rf ./*.deb
+  rm -rf "${BUILD_DIR}"/*.deb
 
   for deb_file in "${LOCAL_DEB_FILES[@]}"; do
     if [[ ! -f "${deb_file}" ]]; then
