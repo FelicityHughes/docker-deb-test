@@ -55,10 +55,7 @@ all be removed in one go with:
 ./Cleanup.sh
 ```
 
-**Note:**  Do **not** add any service definitions ahead of the base test service
-in the `docker-compose.yml` file, or the `Cleanup.sh` script will break.
-
-### Docker configuration
+## Docker configuration
 The following items are set in the `docker-compose.yml` file:
 
 * `BASE_IMAGE` - The base Docker Linux image, set to `ubuntu:16.04`.
@@ -67,11 +64,18 @@ The following items are set in the `docker-compose.yml` file:
   to make appropriate adjustments to the `build/InitEnv.sh` script.  **In
   particular,** `alpine` **images use** `apk` **rather than** `apt` **for
   package management.**
-* `container_name` - Set to *deb-test*, but this can be altered if another name
-  is preferred.
-* `image` - Set to *deb_test_image*, but again can be altered if another name is
-  preferred.
 * `EXTRA_INSTALLS` - If there are any additional dependencies (`apt` packages)
   required by the *.deb* file(s) that are not part of the base Linux image,
   they should be mentioned here.  This is a whitespace-separated list - quoting
   is **not** required.
+* `container_name` - Set to *deb-test*, but this can be altered if another name
+  is preferred.
+* `image` - Set to *deb_test_image*, but again can be altered if another name is
+  preferred.
+* Volume mapping `build/deb-files` to `/opt` - It is possible to manually
+  install additional *.deb* files into the running container by copying them to
+  the volume, which will place them in `/opt` in the container.  The
+  `Entrypoint.sh` script demonstrates how to unpack *.deb* files in this
+  directory.  Changing the volume mapping is not recommended, as alterations to
+  both the `UnpackDeb.sh` and `Cleanup.sh` scripts will be required for them to
+  continue to bring up and tear down the container properly.

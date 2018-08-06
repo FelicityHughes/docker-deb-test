@@ -19,6 +19,7 @@ readonly TRUE=1
 readonly LOG_DATE_FORMAT='+%Y-%m-%d %H:%M:%S'
 readonly WORKING_DIR="$(cd -P "$(dirname "${BASH_SOURCE[0]}")" > /dev/null && pwd)"
 readonly BUILD_DIR="${WORKING_DIR}/build"
+readonly DEB_DIR="${BUILD_DIR}/deb-files"
 
 
 ################################################################################

@@ -126,7 +126,8 @@ get_deb_files() {
   local return_val="${SUCCESS}"
 
   # Make sure we only have .deb files relevant for this script run.
-  rm -rf "${BUILD_DIR}"/*.deb
+  rm -rf "${DEB_DIR}"
+  mkdir "${DEB_DIR}"
 
   for deb_file in "${LOCAL_DEB_FILES[@]}"; do
     if [[ ! -f "${deb_file}" ]]; then
@@ -134,12 +135,12 @@ get_deb_files() {
                       "Deb file *${deb_file}* not found."
     fi
 
-    cp "${deb_file}" "${BUILD_DIR}"
+    cp "${deb_file}" "${DEB_DIR}"
   done
 
-  cd "${BUILD_DIR}" || \
+  cd "${DEB_DIR}" || \
      exit_with_error ${MISSING_DIR_ERROR} \
-                     "Could not change to ${BUILD_DIR} dir."
+                     "Could not change to ${DEB_DIR} dir."
 
   for remote_deb_file in "${REMOTE_DEB_FILES[@]}"; do
     curl -f -O "${remote_deb_file}"

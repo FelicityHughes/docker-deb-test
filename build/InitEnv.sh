@@ -10,6 +10,3 @@ if [[ "${EXTRA_INSTALLS}" != "" ]]; then
 else
   apt-get update && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 fi
-
-# Finish off initialisation with custom .deb packages
-DEBIAN_FRONTEND=noninteractive dpkg --ignore-depends=amazon-cloudwatch-agent -i /opt/*.deb

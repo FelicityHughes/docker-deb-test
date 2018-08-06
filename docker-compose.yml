@@ -10,3 +10,5 @@ services:
     image: deb_test_image
     stdin_open: true
     tty: true
+    volumes:
+      - ./build/deb-files:/opt
