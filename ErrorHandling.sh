@@ -34,7 +34,7 @@ readonly SCRIPT_INTERRUPTED=99
 # Executes clean up tasks required before exiting - basically writing the
 # interrupt signal to stderr.
 #
-# @param ${SIGNAL} The signal that triggered the cleanup.
+# @param SIGNAL The signal that triggered the cleanup.
 #
 # Note:  This function is assigned to signal trapping for the script so any
 #        unexpected interrupts are handled gracefully.
