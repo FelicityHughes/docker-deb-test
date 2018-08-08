@@ -2,10 +2,10 @@
 
 ### Dependencies
 #### External
-* [curl] (https://curl.haxx.se/)
-* [docker] (https://docs.docker.com)
-* [docker-compose] (https://docs.docker.com/compose/)
-* [yq] (http://http://mikefarah.github.io/yq/)
+1. [curl](https://curl.haxx.se/)
+2. [docker](https://docs.docker.com)
+3. [docker-compose](https://docs.docker.com/compose/)
+4. [yq](http://http://mikefarah.github.io/yq/)
 
 ### About
 This is a basic application that can take both local and remote *.deb* files,
@@ -55,7 +55,7 @@ all be removed in one go with:
 ./Cleanup.sh
 ```
 
-## Docker configuration
+### Docker configuration
 The following items are set in the `docker-compose.yml` file:
 
 * `BASE_IMAGE` - The base Docker Linux image, set to `ubuntu:16.04`.
@@ -74,8 +74,11 @@ The following items are set in the `docker-compose.yml` file:
   preferred.
 * Volume mapping `build/deb-files` to `/opt` - It is possible to manually
   install additional *.deb* files into the running container by copying them to
-  the volume, which will place them in `/opt` in the container.  The
+  `build/deb-files`, which will place them in `/opt` in the container.  The
   `Entrypoint.sh` script demonstrates how to unpack *.deb* files in this
   directory.  Changing the volume mapping is not recommended, as alterations to
   both the `UnpackDeb.sh` and `Cleanup.sh` scripts will be required for them to
   continue to bring up and tear down the container properly.
+
+There are other items set in this file which should not be changed.  Alter them
+at your own risk.
