@@ -18,8 +18,7 @@
 #
 # docker-compose down
 #
-# ...in the root directory (where docker-compose.yml lives).  Add the -v flag to
-# tear down all volumes owned by the container.
+# ...in the root directory (where docker-compose.yml lives).
 #
 # Command line options:
 # -b When set, instructs Docker to tear down any volumes attached to the
@@ -162,19 +161,18 @@ get_deb_files() {
 # Entry point to the program.  Valid command line options are described at the
 # top of the script.
 #
-# @param ARGS Command line flags, including -d <deb_file> and the optional
-#             -b <base_deb_file> and -r(ebuild).
+# @param ARGS Command line flags, including -b(uild), -l <local_deb_files> and
+#             -r <remote_deb_files>.
 ################################################################################
 main() {
   ARGS=("${@}")
   check_args "${ARGS[@]}"
   get_deb_files
+  remove_docker_containers
 
   if ((REBUILD == TRUE)); then
-    remove_docker_containers "${TRUE}"
     docker-compose up --build -d
   else
-    remove_docker_containers "${FALSE}"
     docker-compose up -d
   fi
 }
